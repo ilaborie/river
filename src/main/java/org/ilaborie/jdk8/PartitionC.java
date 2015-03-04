@@ -1,9 +1,6 @@
 package org.ilaborie.jdk8;
 
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
@@ -11,14 +8,13 @@ import java.util.function.Supplier;
 import java.util.stream.Collector;
 
 import static java.util.Collections.unmodifiableSet;
-import static java.util.EnumSet.*;
 
 /**  */
-public class Partition<T> implements Collector<T, List<List<T>>, List<List<T>>> {
+public class PartitionC<T> implements Collector<T, List<List<T>>, List<List<T>>> {
 
     private final int size;
 
-    public Partition(int size) {
+    public PartitionC(int size) {
         super();
         this.size = size;
     }
@@ -59,21 +55,15 @@ public class Partition<T> implements Collector<T, List<List<T>>, List<List<T>>> 
             } else if (list2.isEmpty()) {
                 return list1;
             } else {
-                List<List<T>> result = new ArrayList<>(list1.size() + list2.size());
+                List<T> last1 = list1.remove(list1.size() - 1);
+                List<T> last2 = list2.remove(list2.size() - 1);
 
                 // Append completed lists
-                if (list1.size() > 1) {
-                    result.addAll(list1.subList(0, list1.size() - 1));
-                }
-                if (list2.size() > 1) {
-                    result.addAll(list2.subList(0, list2.size() - 1));
-                }
+                List<List<T>> result = new ArrayList<>(list1.size() + list2.size());
+                result.addAll(list1);
+                result.addAll(list2);
 
                 // Handle last lists
-                List<T> last1 = list1.get(list1.size() - 1);
-                List<T> last2 = list2.get(list2.size() - 1);
-
-
                 int size2 = last2.size();
 
                 int missing = size - last1.size();

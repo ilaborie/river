@@ -16,7 +16,7 @@ public class PartionTest {
         try {
             return IntStream.range(0, count)
                     .mapToObj(Integer::valueOf)
-                    .collect(new Partition<>(partitionSize));
+                    .collect(new PartitionB<>(partitionSize));
         } finally {
             System.out.printf("%d took: %s\n", count, stopwatch.stop());
         }
@@ -28,7 +28,7 @@ public class PartionTest {
             return IntStream.range(0, count)
                     .parallel()
                     .mapToObj(Integer::valueOf)
-                    .collect(new Partition<>(partitionSize));
+                    .collect(new PartitionB<>(partitionSize));
         } finally {
             System.out.printf("%d // took: %s\n", count, stopwatch.stop());
         }
